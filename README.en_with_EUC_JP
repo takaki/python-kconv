@@ -1,0 +1,233 @@
+This is release 1.0- of kconv.
+
+NAME
+    kconv - Kanji code Conversion library
+
+DESCRIPTION
+    Kconv is a library for kanji code conversion in Python. A string encoded in
+    any encoding can be converted into any other encoding. Any linebreak characters can
+    also be converted. In addition, if hankaku katakana charaters are processed, they
+    will be converted into zenkaku katakana.
+    The C++ version works faster than the pure Python version.
+    BUT, the pure Python version will work on any platform where Python works.
+    The APIs of C++ version and those of the pure Python version are entirely identical, 
+    so one can easily switch between the C++ and Python implementations with no need
+    rewrite source. NOTE: This file contains examples of Japanese text in the EUC encoding. 
+    Please make sure that your viewer can display EUC.
+
+INSTALLATION
+
+    *C++ version
+        > tar xzvf kconv-0.5.5c.tar.gz
+        > cd kconv-0.5.5c
+        > ./configure [--enable-optimize]
+        > make
+        > su
+        # make install
+
+    If you want to enable Python optimization in the compiler, use
+        >./configure --enable-optimize
+    instead of
+    > ./configure
+
+    Or you can use kconv without installing it as root. To do this, simply copy 
+    the kconv files into your desired directory 
+    (and make sure that that directory is in the PYTHONPATH????)
+
+    *Python version
+    After byte compiling, copy the "kconv" directory into the Python library directory
+    or your directory.
+
+    ex.)
+        > tar xzvf kconv-0.5.5p.tar.gz
+        > cd kconv-0.5.5p
+        > python compile.py [optimize]
+        > tar cvf - kconv |
+                (cd /usr/local/lib/python1.5/site-packages/;tar xvpf -)
+        NOTE: preceding command must be one line
+
+    If you don't have tar, use the following command to copy the directory structure
+        > cp -R kconv /usr/local/lib/python1.5/site-packages/
+
+
+INTRODUCTION TO THE ROUTINES
+    First, import "kconv" module 
+        >>> import kconv
+
+    The following are forms of the kconv constructor
+    1.normal arguments
+        >>> kc = kconv.Kconv([outcode[,incode[,hankanaconvert[,checkmode
+                                [,mode[,blcode]]]]]])
+
+    2.keyword arguments
+        >>> kc = kconv.Kconv([outcode = kconv.???][,incode = kconv.???]....)
+
+    Allowed Arguments
+    * out-code
+    Specify output encoding. The default is DEFAULT_OUTPUT_CODING in defaults.py.
+    
+        kconv.EUC       - EUC
+        kconv.SJIS      - Shift Jis 
+        kconv.JIS       - Jis
+        kconv.UNICODE   - Unicode(UCS2)
+        kconv.UTF8      - UTF-8
+
+
+    * in-code
+        If you know input encoding, specify input code for higher performance.
+        If no input encoding is specified, auto-detection is automatically enabled.
+
+        kconv.EUC       - EUC
+        kconv.SJIS      - Shift Jis 
+        kconv.JIS       - Jis
+        kconv.UNICODE   - Unicode(UCS2)
+        kconv.UTF8      - UTF-8
+        kconv.AUTO      - Auto detection(DEFAULT)
+
+    * hankanaconvert
+        Specify whether kconv converts hankaku katakana to zenkaku katakana or 
+        not. If the output encoding is EUC and you do want not to convert hankaku katakna to
+        zenkaku katakana, kconv outputs 2 byte hankaku katakana in EUC.
+
+        kconv.ZENKAKU   - Convert hankaku katakana to zenkaku katakana(DEFAULT)
+        kconv.HANKAKU   - Output hankaku katakana if input string includes hankaku katakana
+
+    * checkmode
+        Choice auto dectection algorithms.
+        If you specify input-code, checkmode is ignored.
+
+        kconv.FAST      - Discriminate using the first definitive character.
+                          (Fast and unreliable.)
+        kconv.FULL      - Discriminate with whole input sting. (Weighted Average)
+        kconv.TABLE     - Discriminate with a 1-byte freqency table.(DEFAULT)
+        kconv.TABLE2    - Discriminate with a 2-byte freqency table.
+                          The accurracy of TABLE2 is higher than TABLE, but
+                          TABLE2 is slightly slower.
+
+    * mode
+        Specify conversion of the whole input string or line-by-line.
+
+        kconv.LINE      - Convert line-by-line. For cases when input code may change on a
+                        line-by-line basis or when you would like to 
+                        use less buffer memory.
+        kconv.WHOLE     - Convert whole input string.(DEFAULT)
+
+    * blcode
+        Specify output breakline character
+        Default breakline character is DEFAULT_BREAKLINE_CODE at defaults.py
+        kconv.LF            - LF (0x0A) Unix
+        kconv.CR        - CR (0x0D) Macintosh
+        kconv.CL        - CR + LF (0x0D + 0x0A) Windows / DOS
+
+EXAMPLES
+    ex1) The most simple usage.
+    1.Import kconv
+        >>> import kconv
+
+    2.Create instance of kconv
+        >>> toEuc = kconv.Kconv()
+
+    3.Call convert() of the instance
+        >>> print toEuc.convert( input_string )
+
+    The method convert() will return the converted string.
+
+    ex2) Converting by specifying the input(JIS) and output(SJIS) encodings.
+        >>> kc = kconv.Kconv(kconv.SJIS,kconv.JIS,kconv.HANKAKU)
+        >>> print kc.convert("JISƒR[ƒh‚Ì•¶Žš—ñ‚¾‚à‚ñ")
+
+    ex3) Converting to EUC, using auto-detection and converting to zenkaku katakana with
+        the full string detection algorithm.
+        >>> kc = kconv.Kconv(kconv.SJIS,kconv.AUTO,kconv.ZENKAKU,
+                            kconv.FULL)
+        >>> print kc.convert("•¶ŽšƒR[ƒh‚Í”CˆÓ‚¾‚æB")
+
+CUSTOMIZATION
+    You can customize kconv by editing defaults.py
+        DEFAULT_INPUT_CODING    This will be used then autodetection fails.
+        DEFAULT_OUTPUT_CODING   The default output code.
+        DEFAULT_BREAKLINE_CODE  Specifies the default breakline character
+
+OTEHR FEATURES
+    Kconv contains several other functions for processing Japanese text.
+    All functions accept a second argument to specify input encoding just as
+    the input encoding in the constructor's argument. The default detection mode is kconv.AUTO.
+    The output encoding is EUC.
+
+    *kconv.ChkHiragana(input_string[,icode])
+    *kconv.ChkKatakana(input_string[,icode])
+
+    Return 1 if the input string hiragana hiragana(or katakana) charatcters, whitespace,
+    breakline character.
+
+    ex)
+        >>>print kconv.ChkHiragana("‚Ð‚ç‚ª‚È‚¾‚¯‚È‚ñ‚¾‚à‚ñ")
+        1
+        >>>print kconv.ChkKatakana("ƒJƒ^ƒJƒi‚¾‚¯‚¶‚á‚È‚¢‚Ý‚½‚¢")
+        0
+
+
+    *kconv.NumberConvert(input_string[,icode])
+
+    Converts zenkaku numeric characters into hankaku numeric characters.
+
+    ex)
+        >>>print kconv.NumberConvert("342‚Q‚R‚U‚R234‚R3‚U‚W024")
+        '34223632343361024'
+
+
+    *kconv.Han2Zen(input_string,icode)
+    *kconv.Zen2Han(input_stirng,icode)
+
+    Converts hankaku(or zenkaku) characters to zenkaku(or hankaku) characters.
+    (This covers roman and non-roman characters)
+    Characters that are imposssible to convert will not beconverted.
+
+    ex)
+        >>>print kconv.Han2Zen("‚º‚ñ‚©‚­‚ÆHankaku(^^;")
+        ‚º‚ñ‚©‚­‚Æ‚g‚‚Ž‚‹‚‚‹‚•iOOG
+        >>>print kconv.Zen2Han("‚º‚ñ‚©‚­‚Æ‚g‚‚Ž‚‹‚‚‹‚•iOOG")
+        ‚º‚ñ‚©‚­‚ÆHankaku(^^;
+
+
+    *kconv.Hira2Kata(input_string,icode)
+    *kconv.Kata2Hira(input_string,icode)
+    
+    Converts hiragana(or katakana) to katakana(or hiragana).
+    Roman letters and numbers are not effected.
+
+    ex)
+        >>>print kconv.Hira2Kata("“Œ•û‚ÍÔ‚­”R‚¦‚Ä‚¢‚é‚æ‚¤‚Å‚·")
+        “Œ•ûƒnÔƒN”RƒGƒeƒCƒ‹ƒˆƒEƒfƒX
+        >>>print kconv.Kata2Hira("ƒfƒtƒHƒ‹ƒg‚ÌƒR[ƒh”FŽ¯ƒ‹[ƒ`ƒ“")
+        ‚Å‚Ó‚§‚é‚Æ‚Ì‚±[‚Ç”FŽ¯‚é[‚¿‚ñ
+
+
+    *kconv.Upper(input_string,icode)
+    *kconv.Lower(input_string,icode)
+
+    Convert lower-case roman letters(or upper-case) to upper-case( or lowercase)
+    (on both hankaku and zenkaku)
+    Other characters willl not be effected.
+
+    ex)
+        >>>print kconv.Upper("Captain ‚`‚l‚d‚q‚h‚b‚`")
+        CAPTAIN ‚`‚l‚d‚q‚h‚b‚`
+        >>>print kconv.Lower("Hoe ‚t‚‹‚™‚•")
+        hoe ‚•‚‹‚™‚•
+
+
+NOTES
+    *Kconv is distributed under the most recent GPL.
+    *Kconv works with the EUC,JIS,SJIS,Unicode(UCS2),UTF-8 encodings
+    *The content of kconv constants are different between the python implementation and 
+     the C++ version
+    *Kconv.FAST is not that fast and sometimes fails to correctly detect the encoding.
+    *Once kconv detects the Unicode encoding in line-by-line mode, it will work under the
+     assumption that Unicode is the input encoding for all subsequent lines.
+     This is because kconv detects Unicode by using the characters 0x00 and 0xFF
+     which are not used in other encodings. All non-Unicode data must not 
+     include the NULL character 0x00. If it includes the NULL character, kconv
+     assume that it is a Unicode string.
+    *The Python implementation will raise the exception kconv.KconvError when an error occurs.
+

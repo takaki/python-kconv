@@ -1,0 +1,202 @@
+Kconv 1.0
+
+☆Kconvとは
+KconvはPython上で稼動するプログラムで、漢字コードの相互変換を可能にします。
+外部からの入力がどのコードを用いていても内部で一つのコードに変換し、統一させられます。
+また、改行文字も統一して扱うことができます。その他に、半角カナの入力があってもそれを
+全角に変換することができます。C++版はPure Python版に比べてかなり高速な変換が可能です。
+Python版はPythonがインストールされていればどのプラットフォームにも対応できます。
+ユーザーインターフェースはPure Python版とC++版で全く同一ですので、一方から他方へ
+ライブラリーを変更する際にソースコードの変更は不要です。
+
+☆インストール方法
+・C++ ver.
+    > ./configure
+    > make
+    > su
+    # make install
+
+
+*.pyoが使えるなら
+    >./configure
+のかわりに
+    >./configure --enable-optimize
+とすれば多少高速化されるかも知れません。
+
+一部の環境では./configure後にMakefileの変更が必要になります。
+I can't find ...
+と表示された場合はPython.hの場所とpython/site-packages/の場所をMakefileで
+指定して下さい。
+
+また、make installせずに構成ファイルを使用するディレクトリに置き、使うこともできます。
+
+・Python ver.
+コンパイルした後、kconvを使用するディレクトリまたはライブラリディレクトリにkconvディレクトリ
+をコピーして下さい。optimizeというオプションをつけると*.pyoも作ります。
+* 例
+    ~/> python compile.py [optimize]
+    ~/> tar xzvf kconv-0.5.5.tar.gz
+    ~/> cd kconv-0.5.5p
+    ~/kconv-0.5.5p/> tar cvf - kconv | 
+          (cd /usr/local/lib/python1.5/site-packages/;tar xvpf -)
+    (注意)本当は一行
+
+    tarが無い場合
+    ~/kconv-0.5.5p/> cp -R kconv /usr/local/lib/python1.5/site-packages/
+
+☆コンストラクタ書式
+kconvをインポートするとKconvクラスのインスタンスが作成可能になります。
+コンストラクタの書式は以下の通りです。
+
+・通常形式
+>>> kc = kconv.Kconv([outcode[,incode[,hankanaconvert[,checkmode
+                     [,mode[,blcode]]]]]])
+
+・キーワードアーギュメント
+>>> kc = kconv.Kconv([outcode = kconv.???][,incode = kconv.???]....)
+
+・コンストラクタ引数
+* out-code
+出力する漢字コードを指示します。
+以下のいずれかを与えて下さい。
+指定しなかった場合にはdefaults.pyのDEFAULT_OUTPUT_CODINGが使用されます。
+    kconv.EUC       - EUC
+    kconv.SJIS      - Shift Jis 
+    kconv.JIS       - Jis
+    kconv.UNICODE   - Unicode
+    kconv.UTF8      - UTF-8
+
+
+* in-code
+入力される漢字コードを指定します。
+デフォルトでは自動判別します。
+入力の漢字コードがわかっている場合は明示的に指定すると高速化されます。
+    kconv.EUC       - EUC
+    kconv.SJIS      - Shift Jis 
+    kconv.JIS       - Jis
+    kconv.UNICODE   - Unicode
+    kconv.UTF8      - UTF-8
+    kconv.AUTO      - 自動判別(デフォルト)
+
+* hankanaconvert
+半角仮名を全角仮名にコンバートするかのフラグです。
+UCでの出力の場合2バイト半角仮名を使用します。
+    kconv.ZENKAKU - 半角仮名を全角仮名にコンバートします(デフォルト)
+    kconv.HANKAKU - 半角仮名が入力されても何もしません。
+
+* checkmode
+漢字コードの自動判別ルーチンを選択します。
+明示的に入力コードをしていた場合には意味を持ちません。
+    kconv.FAST   - 最初の判別可能な文字で決定します。高速です。
+    kconv.FULL   - 全ての文字を使用して判別を試みます。精度が良くなります。
+    kconv.TABLE  - 頻度表を用いてEUC/SJISの判定を行ないます。ある程度長い文章の
+                   時には最も精度がいいはずです。(デフォルト)
+    kconv.TABLE2 - 頻度表を用いてEUC/SJISの判定を行ないます。kconv.TABLEとは
+                   1バイトのみ見る頻度表を使うか2バイトを見る頻度表を使うかが違い
+                   ます。2バイトを見る方が誤変換率は減るはずですが、多少低速です。
+                   
+
+* mode
+全ての文字を一度に変換するか一行毎に変換するかを指定します。
+kconv.LINE  - 一行毎に変換します。漢字コードが途中から変わる可能性がある場合や
+              メモリーが少ない場合に使用します。
+kconv.WHOLE - 全文を一度に変換します。(デフォルト)
+
+* blcode
+出力する改行文字を指定します。
+無指定の場合はdefaults.pyのDEFAULT_BREAKLINE_CODEが選択されます。
+    kconv.LF - LF (0x0A) Unix系のOSで用いられています。
+    kconv.CR - CR (0x0D) Macintoshで用いられているみたいです。
+    kconv.CL - CR + LF (0x0D + 0x0A) Windows / DOS で使われています。
+
+☆使用方法
+* 例1：最も簡単な使い方
+1. kconvをインポートします。
+    >>> import kconv
+
+2. kconvのインスタンスを作ります。
+>>> toEuc = kconv.Kconv()
+
+3. インスタンスのconvert()を呼びます。
+>>> print toEuc.convert( input_string )
+*convert()にオプションはありません。
+stringを渡すと変換したstringを返します。
+
+* 例2：出力コードSJIS、入力コードJIS、半角仮名は保持
+    >>>kc = kconv.Kconv(kconv.SJIS,kconv.JIS,kconv.HANKAKU)
+    >>>print kc.convert("JISコードの文字列だもん")
+
+* 例3：出力コードEUC、入力コード自動判別、半角仮名を全角に変換、詳細にコードチェック
+>>>kc = kconv.Kconv(kconv.SJIS,kconv.AUTO,kconv.ZENKAKU,
+                    kconv.FULL)
+>>>print kc.convert("文字コードは任意だよ。")
+
+☆カスタマイズ
+defaults.py内の定数を変更することにより環境に適応させることができます。
+    DEFAULT_INPUT_CODING 自動判別で判別不能だった場合に選択されます。
+    DEFAULT_OUTPUT_CODING 出力コードを省略した場合のデフォルトになります。
+    DEFAULT_BREAKLINE_CODE 改行文字を指定します。
+
+☆その他の日本語処理用のメソッド
+すべての関数で、第2引数としてkconv.???をとり入力の文字コードを指定することができます。
+指定可能な値は kconv.EUC , kconv.SJIS , kconv.JIS , kconv.UNICODE , 
+kconv.UTF8 です。第2引数が省略された場合にはkconv.AUTOが指定され、認識を試みます。
+
+・kconv.ChkHiragana(input_string,icode) / 
+  kconv.ChkKatakana(input_string,icode)
+    input_stringが平仮名／カタカナとホワイトスペース、改行のみで構成されている
+    かチェックします。返り値は平仮名／カタカナのみなら1それ以外なら0になります。
+* 例
+    >>>print kconv.ChkHiragana("ひらがなだけなんだもん")
+    1
+    >>>print kconv.ChkKatakana("カタカナだけじゃないみたい")
+    0
+
+・kconv.NumberConvert(input_string)
+    半角と全角の混ざった数字の文字列をすべて半角の文字列にして返します。
+* 例
+    >>>print kconv.NumberConvert("342２３６３234３3６８024")
+    '34223632343361024'
+
+・kconv.Han2Zen(input_string,icode) / 
+  kconv.Zen2Han(input_stirng,icode)
+    全角文字と半角文字の混ざった文字列をすべてEUCの全角(半角)文字列にして返します。
+* 例
+    >>>print kconv.Han2Zen("ぜんかくとHankaku(^^;")
+    ぜんかくとＨａｎｋａｋｕ（＾＾；
+    >>>print kconv.Zen2Han("ぜんかくとＨａｎｋａｋｕ（＾＾；")
+    ぜんかくとHankaku(^^;"
+
+・kconv.Hira2Kata(input_string,icode) /
+  kconv.Kata2Hira(input_string,icode)
+    平仮名(カタカナ)をカタカナ(平仮名)に変換します。英数字・記号は変化しません。
+* 例
+    >>>print kconv.Hira2Kata("東方は赤く燃えているようです")
+    東方ハ赤ク燃エテイルヨウデス
+    >>>print kconv.Kata2Hira("デフォルトのコード認識ルーチン")
+    でふぉるとのこーど認識るーちん
+
+・kconv.Upper(input_string,icode) /
+  kconv.Lower(input_string,icode)
+    全角半角を問わず小文字(大文字)を大文字(小文字)へ変換します。それ以外の文字は変化しません。
+* 例
+    >>>print kconv.Upper("Captain ＡＭＥＲＩＣＡ")
+    CAPTAIN ＡＭＥＲＩＣＡ
+    >>>print kconv.Lower("Hoe Ｕｋｙｕ")
+    hoe ｕｋｙｕ
+
+☆注意事項
+* 1.0.0からは頒布条件がGPLに変わりました。
+* string以外のオブジェクトが渡された場合の動作は未定義です。
+* 入力された漢字コードが正しいかどうかチェックしていません。
+* 漢字コードの範囲外の入力に対しての動作は未定義です。
+* 現在対応しているのはEUC,JIS,Shift-JIS,Unicode,UTF-8のみです。
+* Python版とC++版ではkconv.???の定数の内容が違います。(kconv.EUC,kconv.HANKAKU etc...)
+* 現在のkconv.FASTはあまり高速でない上に一部のコードではエラー終了します。非推奨です。
+* 一度Unicodeを認識したら他のコードは認識しません。
+  他のコードでは使っていない0x00,0xFFを用いてUnicodeを認識しているためです。
+  従ってUnicode以外の文字列をkconvに渡す際には終端文字0x00を含まないようにして下さい。
+  含まれた場合には100％Unicodeと認識されます。
+* Kconv-0.5.3からデフォルトのコード認識ルーチンがKconv.TABLEに変更されています。
+
+* Puthon版はエラーが発生した場合にはkconv.KconvErrorをraiseします。

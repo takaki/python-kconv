@@ -1,0 +1,21 @@
+python用の漢字コード変換および簡単な日本語処理ライブラリー
+
+Copyright(c) 1999 by Karasawa Yutaka(kconv@garage.co.jp)
+
+kconvはバージョン0.4をTed Crossman(tedo@infoseek.co.jp)と
+Sen Nagata(sen@sccosys.com)とが開発し、0.5cおよび0.5pからは
+Karasawaが開発したものです。従って本プログラムとはkconvバージョン
+0.5cおよび0.5p以降を指します。
+
+本プログラムはフリー・ソフトウェアです。
+本プログラムはGNU一般公用使用許諾書の最新版に従い頒布します。
+また、本プログラムは完全に無保証です。
+詳細はGPLをお読み下さい。
+
+本プログラムは以下の人々から多大なる協力をいただいています。
+Yuka Fukuie(yuka@garage.co.jp)
+Brian Hooper(brian@garage.co.jp)
+Ransui Iso(ransui@garage.co.jp)
+Hidenori Kaji(kaji@garage.co.jp)
+Aki Kobayashi(aki@garage.co.jp)
+Cyrus Shaoul(cyrus@garage.co.jp)
