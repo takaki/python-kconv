@@ -185,8 +185,7 @@ UnicInputer::UnicInputer(int ue,char * n,Codes c):Inputer(n,c),endian(ue){
 	PyObject *ospath,*f_join,*file;
 	ospath = PyImport_ImportModule("os.path");
 	f_join = PyObject_GetAttrString(ospath,"join");
-	char *prefix_ = "/usr/share/python-kconv";
-	file = PyObject_CallFunction(f_join,"(ss)",prefix_,kconvu2etable);
+	file = PyObject_CallFunction(f_join,"(ssss)",SYSPREFIX,"share","python-kconv",kconvu2etable);
 	filename = PyString_AsString(file);
 	FILE *IN = fopen(filename,"rb");
 	if(!IN){

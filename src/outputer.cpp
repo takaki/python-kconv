@@ -236,8 +236,7 @@ int UnicOutputer::LoadTable(void){
 	PyObject *ospath,*f_join,*file;
 	ospath = PyImport_ImportModule("os.path");
 	f_join = PyObject_GetAttrString(ospath,"join");
-	char *prefix_ = "/usr/share/python-kconv";
-	file = PyObject_CallFunction(f_join,"(ss)",prefix_,kconve2utable);
+	file = PyObject_CallFunction(f_join,"(ssss)",SYSPREFIX,"share","python-kconv",kconve2utable);
 	PyArg_Parse(file,"s",&filename);
 	FILE *IN = fopen(filename,"rb");
 	if(!IN){

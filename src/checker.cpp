@@ -256,9 +256,8 @@ Table2Checker::Table2Checker():Checker("TABLE2",_TABLE2){
 	PyObject *ospath,*f_join,*filee,*files;
 	ospath = PyImport_ImportModule("os.path");
 	f_join = PyObject_GetAttrString(ospath,"join");
-	char *prefix_ = "/usr/share/python-kconv";
-	filee = PyObject_CallFunction(f_join,"(ss)",prefix_,tc2tableefile);
-	files = PyObject_CallFunction(f_join,"(ss)",prefix_,tc2tablesfile);
+	filee = PyObject_CallFunction(f_join,"(ssss)",SYSPREFIX,"share","python-kconv",tc2tableefile);
+	files = PyObject_CallFunction(f_join,"(ssss)",SYSPREFIX,"share","python-kconv",tc2tablesfile);
 	PyArg_Parse(filee,"s",&filenamee);
 	PyArg_Parse(files,"s",&filenames);
 	//	Py_XDECREF(ospath);
