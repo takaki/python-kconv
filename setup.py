@@ -2,7 +2,7 @@
 from distutils.core import setup, Extension
 import sys
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 setup(name="python-kconv",
       version=VERSION,
       description="Python Kanji-code converter",

@@ -93,7 +93,7 @@ CallChecker(PyObject *self, PyObject *args)
 	PyObject *pret;
 
 	Checker *op;
-	if(!PyArg_ParseTuple(args, "isi", &type, &str, &len)){
+	if(!PyArg_ParseTuple(args, "is#", &type, &str, &len)){
 		return NULL;
 	}
 	op = CheckerTable[type]();
