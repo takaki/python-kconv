@@ -1,11 +1,11 @@
 ;; -*- Prcs -*-
 (Created-By-Prcs-Version 1 3 3)
 (Project-Description "")
-(Project-Version python-kconv 0 3)
-(Parent-Version python-kconv 0 2)
+(Project-Version python-kconv 0 4)
+(Parent-Version python-kconv 0 3)
 (Version-Log "")
 (New-Version-Log "")
-(Checkin-Time "Sun, 09 Feb 2003 16:16:34 +0900")
+(Checkin-Time "Sun, 09 Feb 2003 16:25:52 +0900")
 (Checkin-Login takaki)
 (Populate-Ignore ("^build" "^dist" "^MANIFEST$"))
 (Project-Keywords)
@@ -46,7 +46,7 @@
   (src/commonop.h (python-kconv/25_commonop.h 1.1 644))
   (src/checker.cpp (python-kconv/26_checker.cp 1.3 644))
   (src/array.cpp (python-kconv/27_array.cpp 1.1 644))
-  (LICENCE.EUC (python-kconv/28_LICENCE.EU 1.1 644))
+  (LICENCE.EUC (python-kconv/28_LICENCE.EU 1.2 644))
 
 ;; Files deleted by depopulate at Sat, 08 Feb 2003 18:14:20 +0900,
 ;; from version 0.1(w), by takaki:
@@ -71,7 +71,7 @@
 ;; to version 0.1(w), by takaki:
 
   (MANIFEST.in (python-kconv/30_MANIFEST.i 1.1 664))
-  (ChangeLog (python-kconv/31_ChangeLog 1.2 664))
+  (ChangeLog (python-kconv/31_ChangeLog 1.3 664))
   (setup.py (python-kconv/32_setup.py 1.2 664))
 )
 (Merge-Parents)
