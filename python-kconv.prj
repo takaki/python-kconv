@@ -1,11 +1,11 @@
 ;; -*- Prcs -*-
 (Created-By-Prcs-Version 1 3 3)
 (Project-Description "")
-(Project-Version python-kconv 0 6)
-(Parent-Version python-kconv 0 5)
+(Project-Version python-kconv 0 7)
+(Parent-Version python-kconv 0 6)
 (Version-Log "")
 (New-Version-Log "")
-(Checkin-Time "Wed, 12 Feb 2003 00:29:14 +0900")
+(Checkin-Time "Wed, 12 Feb 2003 01:12:04 +0900")
 (Checkin-Login takaki)
 (Populate-Ignore ("^build" "^dist" "^MANIFEST$" "CVS"))
 (Project-Keywords)
@@ -27,7 +27,7 @@
   (data/kconve2utable.dat (python-kconv/6_kconve2uta 1.1 644) :no-keywords)
   (kconv/defaults.py (python-kconv/7_defaults.p 1.2 644))
   
-  (kconv/__init__.py (python-kconv/9___init__.p 1.2 644))
+  (kconv/__init__.py (python-kconv/9___init__.p 1.3 644))
   (README.en_with_EUC_JP (python-kconv/10_README.en_ 1.1 644))
   (README.EUC (python-kconv/11_README.EUC 1.1 644))
   (src/kconv.h (python-kconv/12_kconv.h 1.2 644))
@@ -72,12 +72,12 @@
 
   (MANIFEST.in (python-kconv/30_MANIFEST.i 1.1 664))
   (ChangeLog (python-kconv/31_ChangeLog 1.3 664))
-  (setup.py (python-kconv/32_setup.py 1.3 664))
+  (setup.py (python-kconv/32_setup.py 1.4 664))
 
 ;; Files added by populate at Tue, 11 Feb 2003 20:13:30 +0900,
 ;; to version 0.4(w), by takaki:
 
-  (src/_kconv.cpp (python-kconv/33__kconv.cpp 1.1 664))
+  (src/_kconv.cpp (python-kconv/33__kconv.cpp 1.2 664))
 
 ;; Files added by populate at Wed, 12 Feb 2003 00:15:18 +0900,
 ;; to version 0.5(w), by takaki:

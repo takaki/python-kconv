@@ -30,27 +30,27 @@ DEFALUT_BREAKLINE_CODE = LF
 DEFAULT_CHECK_MODE     = TABLE
 
 _InputerTable = [
-#    EucInputer,
-#    SjisInputer,
-#    JisInputer,
-#    UnicInputer,
-#    Utf8Inputer,
+    EucInputer,
+    SjisInputer,
+    JisInputer,
+    UnicInputer,
+    Utf8Inputer,
     ]
 
 _OutputerTable = [
     [EucOutputer, None],
-#    [EucOutputer, EucZenkanaOutputer],
-#    [SjisOutputer,SjisZenkanaOutputer],
-#    [JisOutputer, JisZenkanaOutputer],
-#    [UnicOutputer,UnicOutputer],
-#    [Utf8Outputer,Utf8Outputer],
+    [EucOutputer, EucZenkanaOutputer],
+    [SjisOutputer,SjisZenkanaOutputer],
+    [JisOutputer, JisZenkanaOutputer],
+    [UnicOutputer,UnicOutputer],
+    [Utf8Outputer,Utf8Outputer],
     ]
 
 _CheckerTable = [
-#    FastChecker,
-#    FullChecker,
-#    TableChecker,
-#    Table2Checker,
+    FastChecker,
+    FullChecker,
+    TableChecker,
+    Table2Checker,
     ]
 
 def convert(string,

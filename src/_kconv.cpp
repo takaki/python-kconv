@@ -2,6 +2,7 @@
 #include "inputer.h"
 #include "outputer.h"
 #include "checker.h"
+#include "commonop.h"
 
 #define onError(message) \
 { PyErr_SetString(ErrorObject,message); return NULL; }
@@ -9,7 +10,7 @@
 static PyObject *ErrorObject;
 static PyObject * convertgaiji( PyObject *self,	 PyObject *args);
 
-/*
+
 static PyObject*
 EucInputer( PyObject *self, PyObject *args)
 {
@@ -29,12 +30,10 @@ EucInputer( PyObject *self, PyObject *args)
 	delete ar;
 	return pret;
 }
-*/
-
 
 
 static PyObject*
-EucOutputer( PyObject *self, PyObject *args)
+EucOutputer(PyObject *self, PyObject *args)
 {
 	unsigned char *str;
 	int bl;
@@ -57,56 +56,54 @@ EucOutputer( PyObject *self, PyObject *args)
 
 
 
-/*
-EucInputer
-SjisInputer
-JisInputer
-UnicInputer
-Utf8Inputer
+
+static PyObject* SjisInputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* JisInputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* UnicInputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* Utf8Inputer(PyObject *self, PyObject *args){return NULL;};
 
 
-EucZenkanaOutputer
-SjisOutputer
-SjisZenkanaOutputer
-JisOutputer
-JisZenkanaOutputer
-UnicOutputer
-UnicOutputer
-Utf8Outputer
-Utf8Outputer
+static PyObject* EucZenkanaOutputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* SjisOutputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* SjisZenkanaOutputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* JisOutputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* JisZenkanaOutputer(PyObject *self, PyObject *args){return NULL;};
+static PyObject* UnicOutputer(PyObject *self, PyObject *args){return NULL;};
 
-FastChecker
-FullChecker
-TableChecker
-Table2Checker
-*/
+static PyObject* Utf8Outputer(PyObject *self, PyObject *args){return NULL;};
+
+static PyObject* FastChecker(PyObject *self, PyObject *args){return NULL;};
+static PyObject* FullChecker(PyObject *self, PyObject *args){return NULL;};
+static PyObject* TableChecker(PyObject *self, PyObject *args){return NULL;};
+static PyObject* Table2Checker(PyObject *self, PyObject *args){return NULL;};
+
 
 
 
 static PyMethodDef KconvMethods[] = {
 	{"UnGaiji",convertgaiji,METH_VARARGS},
 
-// 	{"EucInputer", EucInputer, METH_VARARGS},
-// 	{"SjisInputer", SjisInputer, METH_VARARGS},
-// 	{"JisInputer", JisInputer, METH_VARARGS},
-// 	{"UnicInputer", UnicInputer ,METH_VARARGS},
-// 	{"Utf8Inputer", Utf8Inputer ,METH_VARARGS},
+ 	{"EucInputer", EucInputer, METH_VARARGS},
+ 	{"SjisInputer", SjisInputer, METH_VARARGS},
+ 	{"JisInputer", JisInputer, METH_VARARGS},
+ 	{"UnicInputer", UnicInputer ,METH_VARARGS},
+ 	{"Utf8Inputer", Utf8Inputer ,METH_VARARGS},
 
  	{"EucOutputer", EucOutputer ,METH_VARARGS},
-// 	{"EucZenkanaOutputer", EucZenkanaOutputer ,METH_VARARGS},
-// 	{"SjisOutputer", SjisOutputer ,METH_VARARGS},
-// 	{"SjisZenkanaOutputer", SjisZenkanaOutputer ,METH_VARARGS},
-// 	{"JisOutputer", JisOutputer ,METH_VARARGS},
-// 	{"JisZenkanaOutputer", JisZenkanaOutputer ,METH_VARARGS},
-// 	{"UnicOutputer", UnicOutputer ,METH_VARARGS},
-// 	{"UnicOutputer", UnicOutputer ,METH_VARARGS},
-// 	{"Utf8Outputer", Utf8Outputer ,METH_VARARGS},
-// 	{"Utf8Outputer", Utf8Outputer ,METH_VARARGS},
+	{"EucZenkanaOutputer", EucZenkanaOutputer ,METH_VARARGS},
+	{"SjisOutputer", SjisOutputer ,METH_VARARGS},
+	{"SjisZenkanaOutputer", SjisZenkanaOutputer ,METH_VARARGS},
+	{"JisOutputer", JisOutputer ,METH_VARARGS},
+	{"JisZenkanaOutputer", JisZenkanaOutputer ,METH_VARARGS},
+	{"UnicOutputer", UnicOutputer ,METH_VARARGS},
+	{"UnicOutputer", UnicOutputer ,METH_VARARGS},
+	{"Utf8Outputer", Utf8Outputer ,METH_VARARGS},
+	{"Utf8Outputer", Utf8Outputer ,METH_VARARGS},
 
-// 	{"FastChecker", FastChecker ,METH_VARARGS},
-// 	{"FullChecker", FullChecker ,METH_VARARGS},
-// 	{"TableChecker", TableChecker ,METH_VARARGS},
-// 	{"Table2Checker", Table2Checker ,METH_VARARGS},
+	{"FastChecker", FastChecker ,METH_VARARGS},
+	{"FullChecker", FullChecker ,METH_VARARGS},
+	{"TableChecker", TableChecker ,METH_VARARGS},
+	{"Table2Checker", Table2Checker ,METH_VARARGS},
 
 	{NULL, NULL},
 };
@@ -368,7 +365,7 @@ convertgaiji( PyObject *self, PyObject *args)
 // -*- c++ -*-
 
 char prefix[MAXPATHLEN]; //テーブルの場所を示す。
-
+Codes _DEFAULT_INPUT_CODING;
 //テーブルのファイル名
 const char * kconvu2etable = "kconvu2etable.dat";
 const char * kconve2utable = "kconve2utable.dat";
