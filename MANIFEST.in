@@ -1,0 +1,8 @@
+include COPYING
+include LICENCE.EUC
+include MANIFEST
+include MANIFEST.in
+include README.EUC
+include README.en_with_EUC_JP
+recursive-include src *.h
+recursive-include data *.dat

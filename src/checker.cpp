@@ -256,8 +256,9 @@ Table2Checker::Table2Checker():Checker("TABLE2",_TABLE2){
 	PyObject *ospath,*f_join,*filee,*files;
 	ospath = PyImport_ImportModule("os.path");
 	f_join = PyObject_GetAttrString(ospath,"join");
-	filee = PyObject_CallFunction(f_join,"(ss)",prefix,tc2tableefile);
-	files = PyObject_CallFunction(f_join,"(ss)",prefix,tc2tablesfile);
+	char *prefix_ = "/usr/share/python-kconv";
+	filee = PyObject_CallFunction(f_join,"(ss)",prefix_,tc2tableefile);
+	files = PyObject_CallFunction(f_join,"(ss)",prefix_,tc2tablesfile);
 	PyArg_Parse(filee,"s",&filenamee);
 	PyArg_Parse(files,"s",&filenames);
 	//	Py_XDECREF(ospath);
@@ -266,12 +267,14 @@ Table2Checker::Table2Checker():Checker("TABLE2",_TABLE2){
 	//Py_XDECREF(files);
 	FILE *INe = fopen(filenamee,"rb");
 	if(!INe){
+	  fprintf(stderr, "%s\n", filenamee);
 	  char *mes = new char[strlen(filenamee)+strlen(notfoundmessage)+2];
 	  sprintf(mes,"%s(%s)",notfoundmessage,mes);
 	  PyErr_SetString(PyExc_IOError,mes);
 	}
 	FILE *INs = fopen(filenames,"rb");
 	if(!INe){
+	  fprintf(stderr, "%s\n", filenames);
 	  char *mes = new char[strlen(filenames)+strlen(notfoundmessage)+2];
 	  sprintf(mes,"%s(%s)",notfoundmessage,mes);
 	  PyErr_SetString(PyExc_IOError,mes);
