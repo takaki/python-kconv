@@ -107,15 +107,63 @@ static PyMethodDef KconvMethods[] = {
 
 	{NULL, NULL},
 };
+
+typedef struct KconvConst {
+	char *name;
+	int  value;
+} KconvConst;
+
 extern "C" {
+#pragma }
 
 void
 init_kconv(void)
 {
-	Py_InitModule("_kconv", KconvMethods);
+	PyObject *m = Py_InitModule("_kconv", KconvMethods);
+
+	KconvConst const_table_list[] = {
+		{"AUTO", _AUTO},
+		{"EUC",_EUC},
+		{"SJIS",_SJIS},
+		{"JIS",_JIS     },
+		{"UNICODE",_UNIC },
+		{"UTF8",_UTF8    },
+		
+		{"HANKAKU",_HANKAKU },
+		{"ZENKAKU",_ZENKAKU },
+		
+		{"LF",_LF     },
+		{"CR",_CR     },
+		{"CL",_CL     },
+		
+		{"FAST",_FAST   },
+		{"FULL",_FULL   },
+		{"TABLE",_TABLE  },
+		{"TABLE2",_TABLE2 },
+		
+		{"WHOLE",_WHOLE },
+		{"LINE",_LINE  },
+		{NULL,NULL}
+	};
+	PyObject *d = PyModule_GetDict(m);
+
+	int n = 0;
+	while(1){
+		KconvConst kc = const_table_list[n];
+		if (kc.name == NULL){
+			break;
+		}
+		PyObject *i = PyInt_FromLong(kc.value);
+		PyDict_SetItemString(d, kc.name, i);
+		Py_DECREF(i);
+		n++;
+	}
+	return ;
 }
 
-}
+#pragma {
+} // extern "C"
+
 //
 // check wrapper 
 //
