@@ -10,20 +10,47 @@
 static PyObject *ErrorObject;
 static PyObject * convertgaiji( PyObject *self,	 PyObject *args);
 
+typedef Inputer * (*PInputer)(void);
+typedef Outputer * (*POutputer)(Blcs);
+typedef Checker * (*PChecker)(void);
+
+static PInputer InputerTable[]={
+  newEucInputer,
+  newSjisInputer,
+  newJisInputer,
+  newUnicInputer,
+  newUtf8Inputer,
+};
+
+static POutputer OutputerTable[][2]={
+  {newEucOutputer,newEucZenkanaOutputer},
+  {newSjisOutputer,newSjisZenkanaOutputer},
+  {newJisOutputer,newJisZenkanaOutputer},
+  {newUnicOutputer,newUnicOutputer},
+  {newUtf8Outputer,newUtf8Outputer},
+};
+  
+static PChecker CheckerTable[]={
+  newFastChecker,
+  newFullChecker,
+  newTableChecker,
+  newTable2Checker,
+};
 
 static PyObject*
-EucInputer( PyObject *self, PyObject *args)
+CallInputer( PyObject *self, PyObject *args)
 {
 	unsigned char *str;
 	int len;
+	int type;
 	PyObject *pret;
 
 	Inputer *ip;
 	array *ar;
-	if(!PyArg_ParseTuple(args, "s#", &str, &len)){
+	if(!PyArg_ParseTuple(args, "is#", &type, &str, &len)){
 		return NULL;
 	}
-	ip = newEucInputer();
+	ip = InputerTable[type]();
 	ar = ip->input(str, len);
 	pret = Py_BuildValue("s#", ar->getvalue(), ar->getlength());
 	delete ip;
@@ -31,22 +58,23 @@ EucInputer( PyObject *self, PyObject *args)
 	return pret;
 }
 
-
 static PyObject*
-EucOutputer(PyObject *self, PyObject *args)
+CallOutputer(PyObject *self, PyObject *args)
 {
 	unsigned char *str;
+	int type;
+	int blcs;
 	int bl;
 	PyObject *pret;
 
 	Outputer *op;
 	array *ar;
-	if(!PyArg_ParseTuple(args, "si", &str, &bl)){
+	if(!PyArg_ParseTuple(args, "iisi", &type, &blcs, &str, &bl)){
 		return NULL;
 	}
 	array is;
 	is.append(str);
-	op = newEucOutputer(Blcs(bl));
+	op = OutputerTable[type][blcs](Blcs(blcs));
 	ar = op->output(&is);
 	pret = Py_BuildValue("s#", ar->getvalue(), ar->getlength());
 	delete op;
@@ -55,55 +83,32 @@ EucOutputer(PyObject *self, PyObject *args)
 }
 
 
+static PyObject*
+CallChecker(PyObject *self, PyObject *args)
+{
+	unsigned char *str;
+	int type;
+	int len;
+	Codes ret;
+	PyObject *pret;
 
-
-static PyObject* SjisInputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* JisInputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* UnicInputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* Utf8Inputer(PyObject *self, PyObject *args){return NULL;};
-
-
-static PyObject* EucZenkanaOutputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* SjisOutputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* SjisZenkanaOutputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* JisOutputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* JisZenkanaOutputer(PyObject *self, PyObject *args){return NULL;};
-static PyObject* UnicOutputer(PyObject *self, PyObject *args){return NULL;};
-
-static PyObject* Utf8Outputer(PyObject *self, PyObject *args){return NULL;};
-
-static PyObject* FastChecker(PyObject *self, PyObject *args){return NULL;};
-static PyObject* FullChecker(PyObject *self, PyObject *args){return NULL;};
-static PyObject* TableChecker(PyObject *self, PyObject *args){return NULL;};
-static PyObject* Table2Checker(PyObject *self, PyObject *args){return NULL;};
-
-
+	Checker *op;
+	if(!PyArg_ParseTuple(args, "isi", &type, &str, &len)){
+		return NULL;
+	}
+	op = CheckerTable[type]();
+	ret = op->ChkCoding(str, len);
+	pret = Py_BuildValue("i", ret);
+	delete op;
+	return pret;
+};
 
 
 static PyMethodDef KconvMethods[] = {
 	{"UnGaiji",convertgaiji,METH_VARARGS},
-
- 	{"EucInputer", EucInputer, METH_VARARGS},
- 	{"SjisInputer", SjisInputer, METH_VARARGS},
- 	{"JisInputer", JisInputer, METH_VARARGS},
- 	{"UnicInputer", UnicInputer ,METH_VARARGS},
- 	{"Utf8Inputer", Utf8Inputer ,METH_VARARGS},
-
- 	{"EucOutputer", EucOutputer ,METH_VARARGS},
-	{"EucZenkanaOutputer", EucZenkanaOutputer ,METH_VARARGS},
-	{"SjisOutputer", SjisOutputer ,METH_VARARGS},
-	{"SjisZenkanaOutputer", SjisZenkanaOutputer ,METH_VARARGS},
-	{"JisOutputer", JisOutputer ,METH_VARARGS},
-	{"JisZenkanaOutputer", JisZenkanaOutputer ,METH_VARARGS},
-	{"UnicOutputer", UnicOutputer ,METH_VARARGS},
-	{"UnicOutputer", UnicOutputer ,METH_VARARGS},
-	{"Utf8Outputer", Utf8Outputer ,METH_VARARGS},
-	{"Utf8Outputer", Utf8Outputer ,METH_VARARGS},
-
-	{"FastChecker", FastChecker ,METH_VARARGS},
-	{"FullChecker", FullChecker ,METH_VARARGS},
-	{"TableChecker", TableChecker ,METH_VARARGS},
-	{"Table2Checker", Table2Checker ,METH_VARARGS},
+	{"CallInputer", CallInputer, METH_VARARGS},
+	{"CallOutputer",CallOutputer,METH_VARARGS},
+	{"CallChecker", CallChecker, METH_VARARGS},
 
 	{NULL, NULL},
 };

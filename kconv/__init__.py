@@ -1,57 +1,10 @@
 from kconvtools import *
 from _kconv import *
 
-# AUTO    = -2
-# EUC     = 0
-# SJIS    = 1
-# JIS     = 2
-# UNICODE = 3
-# UTF8    = 4
-
-# HANKAKU = 0
-# ZENKAKU = 1
-
-# LF     = 0
-# CR     = 1
-# CL     = 2
-
-# FAST   = 0
-# FULL   = 1
-# TABLE  = 2
-# TABLE2 = 3
-
-# WHOLE = 0
-# LINE  = 1
-
-
 DEFAULT_INPUT_CODING   = EUC
 DEFAULT_OUTPUT_CODING  = EUC
 DEFALUT_BREAKLINE_CODE = LF
 DEFAULT_CHECK_MODE     = TABLE
-
-_InputerTable = [
-    EucInputer,
-    SjisInputer,
-    JisInputer,
-    UnicInputer,
-    Utf8Inputer,
-    ]
-
-_OutputerTable = [
-    [EucOutputer, None],
-    [EucOutputer, EucZenkanaOutputer],
-    [SjisOutputer,SjisZenkanaOutputer],
-    [JisOutputer, JisZenkanaOutputer],
-    [UnicOutputer,UnicOutputer],
-    [Utf8Outputer,Utf8Outputer],
-    ]
-
-_CheckerTable = [
-    FastChecker,
-    FullChecker,
-    TableChecker,
-    Table2Checker,
-    ]
 
 def convert(string,
             outcode = DEFAULT_OUTPUT_CODING,
