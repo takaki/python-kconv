@@ -2,8 +2,8 @@
 
 import cStringIO
 
-TCR = chr(0x0D)
-TLF = chr(0x0A)
+_TCR = chr(0x0D)
+_TLF = chr(0x0A)
 
 def ChkHiragana(input_string,icode = ''):#ひらがなのみの文字列かどうかちぇっくする。
 	import kconv
@@ -13,7 +13,7 @@ def ChkHiragana(input_string,icode = ''):#ひらがなのみの文字列かどうかちぇっくす
 		ins = cStringIO.StringIO(kconv.Kconv(outcode=kconv.EUC,incode = icode).convert(input_string))
 	i = ins.read(1)
 	while(i != ""):
-		if((i == "\t") | (i == " ") | (i == "\n") | (i == TCR) | (i == TLF)):#タブ、スペース、改行はO.K.
+		if((i == "\t") | (i == " ") | (i == "\n") | (i == _TCR) | (i == _TLF)):#タブ、スペース、改行はO.K.
 			i = ins.read(1)
 			continue
 		if(ord(i) == 0xA4):#平仮名のleader
@@ -42,7 +42,7 @@ def ChkKatakana(input_string,icode = ''):#カタカナのみの文字列かどうかチェックす
 		ins = cStringIO.StringIO(kconv.Kconv(outcode=kconv.EUC,incode = icode).convert(input_string))
 	i = ins.read(1)
 	while(i != ""):
-		if((i == "\t") | (i == " ") | (i == "\n") | (i == TCR) | (i == TLF)):#タブ、スペース、改行はO.K.
+		if((i == "\t") | (i == " ") | (i == "\n") | (i == _TCR) | (i == _TLF)):#タブ、スペース、改行はO.K.
 			i = ins.read(1)
 			continue
 		if(ord(i) == 0xA5):#カタカナのleader
@@ -72,7 +72,7 @@ def NumberConvert(input_string,icode = ''):#全角の数字を半角に変換
 	out = cStringIO.StringIO()
 	i = ins.read(1)
 	while(i != ""):
-		if((i == "\t") | (i == " ") | (i == "\n") | (i == TCR) | (i == TLF)):
+		if((i == "\t") | (i == " ") | (i == "\n") | (i == _TCR) | (i == _TLF)):
 			i = ins.read(1)
 			continue
 		if(("0" <= i) & (i <= "9")):

@@ -22,20 +22,21 @@ setup(name="python-kconv",
                     "kconv.kconvtools",
                     ],
       
-      ext_modules = [Extension(name = 'kconv.kconv',
-                               sources=['src/array.cpp',
-                                        'src/checker.cpp',
-                                        'src/crl.cpp',
-                                        'src/inputer.cpp',
-                                        'src/kconv.cpp',
-                                        'src/outputer.cpp'],
+      ext_modules = [Extension(name = '_kconv',
+                               sources=['src/_kconv.cpp',
+                                        'src/array.cpp',
+#                                        'src/checker.cpp',
+#                                        'src/crl.cpp',
+#                                        'src/inputer.cpp',
+                                        'src/outputer.cpp'
+                                        ],
                                define_macros=[('STDC_HEADERS', '1'),
                                               ('KCONV_VERSION',
                                                '"%s"' % VERSION),
                                               ('SYSPREFIX',
                                                '"%s"' % sys.prefix),
                                               ],
-                               )
+                               ),
                      ]
       )
                      

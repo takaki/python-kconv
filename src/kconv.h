@@ -1,27 +1,12 @@
-#ifdef HAVE_CONFIG_H
-#include "configure.h"
-#endif
-#ifndef HAVE_LIBGCC
-// #include "opnew.h"
-#endif
+// -*- c++ -*-
 #include "inputer.h"
 #include "outputer.h"
 #include "checker.h"
+#include <unistd.h>
 
-#ifdef WIN32
-# define WIN32_EXPORT __declspec( dllexport )
-#else
-# define WIN32_EXPORT
-#endif
-
-#ifdef WIN32
-# include <direct.h>
-# define GETCWD _getcwd
-#else
-# include <unistd.h>
-# define GETCWD getcwd
-#endif
-
+#define GETCWD getcwd
+#define WIN32_EXPORT 
+A
 //Version情報
 const char *version = KCONV_VERSION;
 
@@ -61,19 +46,6 @@ PChecker CheckerTable[]={
   newTable2Checker,
 };
 	
-  
-//KconvToolsへの追加があった時にはここに記述
-char *NameToSet[] = {"ChkHiragana",\
-					 "ChkKatakana",\
-					 "NumberConvert",\
-					 "Han2Zen",\
-					 "Zen2Han",\
-					 "Hira2Kata",\
-					 "Kata2Hira",\
-					 "Upper",\
-					 "Lower",\
-};
-
 //オブジェクトの構造
 struct kconvobject
 {

@@ -266,14 +266,14 @@ Table2Checker::Table2Checker():Checker("TABLE2",_TABLE2){
 	//Py_XDECREF(files);
 	FILE *INe = fopen(filenamee,"rb");
 	if(!INe){
-	  fprintf(stderr, "%s\n", filenamee);
+//	  fprintf(stderr, "%s\n", filenamee);
 	  char *mes = new char[strlen(filenamee)+strlen(notfoundmessage)+2];
 	  sprintf(mes,"%s(%s)",notfoundmessage,mes);
 	  PyErr_SetString(PyExc_IOError,mes);
 	}
 	FILE *INs = fopen(filenames,"rb");
 	if(!INe){
-	  fprintf(stderr, "%s\n", filenames);
+//	  fprintf(stderr, "%s\n", filenames);
 	  char *mes = new char[strlen(filenames)+strlen(notfoundmessage)+2];
 	  sprintf(mes,"%s(%s)",notfoundmessage,mes);
 	  PyErr_SetString(PyExc_IOError,mes);

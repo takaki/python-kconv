@@ -1,4 +1,4 @@
-#include "Python.h"
+#include <Python.h>
 #include "array.h"
 #include "crl.h"
 #include "kconv.h"
@@ -20,7 +20,7 @@ static PyObject *ErrorObject;
 // タイプデスクリプタ
 static PyTypeObject Kconvtype = {
   //タイプヘッダ
-  PyObject_HEAD_INIT(&PyType_Type)
+	PyObject_HEAD_INIT(&PyType_Type)
   0,
   "kconv",
   sizeof(kconvobject),
@@ -424,12 +424,6 @@ extern "C" WIN32_EXPORT void initkconv(void)
   if(!ToolsModule)
 	exit(0);
   ToolsDict = PyModule_GetDict(ToolsModule);
-  //  printf("Dict at %X\n",ToolsDict);
-  for(unsigned int i = 0;i < sizeof(NameToSet)/sizeof(*NameToSet);i++){
-	//	printf("Adding(%s)\n",NameToSet[i]);
-	PyDict_SetItemString(dict,NameToSet[i],PyDict_GetItemString(ToolsDict,NameToSet[i]));
-  }
-  //  printf("Done.\n");
 
   /*
 	Py_XDECREF(ToolsModule);

@@ -21,6 +21,7 @@
 # define NULL 0
 #endif
 
+
 class array{
 private:
   class list{
@@ -39,7 +40,7 @@ private:
   list * pos; //現在のlistへのポインタ
   unsigned int length;
   void print(unsigned char* ppp);
-public:
+ public:
   array(unsigned long l=100);
   ~array();
   void append(const unsigned char in);

@@ -189,7 +189,7 @@ UnicInputer::UnicInputer(int ue,char * n,Codes c):Inputer(n,c),endian(ue){
 	filename = PyString_AsString(file);
 	FILE *IN = fopen(filename,"rb");
 	if(!IN){
-	  fprintf(stderr,"%s\n", filename);
+//	  fprintf(stderr,"%s\n", filename);
 	  char *mes = new char[strlen(filename)+strlen(notfoundmessage)+2];
 	  sprintf(mes,"%s(%s)",notfoundmessage,mes);
 	  PyErr_SetString(PyExc_IOError,mes);
