@@ -27,6 +27,7 @@
 (kconv/__init__.py 4396 1044975967 9___init__.p 1.2)
 (kconv/defaults.py 28 1044975967 7_defaults.p 1.2)
 (src/crl.cpp 4418 1044694061 24_crl.cpp 1.1)
+(.cvsignore 20 1044977354 34_.cvsignore 1.1)
 (src/array.h 1127 1044975967 16_array.h 1.2)
 (src/outputer.h 4645 1044694061 14_outputer.h 1.1)
 (COPYING 17992 1044719246 29_COPYING 1.1)
