@@ -1,6 +1,8 @@
 from kconvtools import *
 from _kconv import *
 
+__version__ = "1.3.0"
+
 DEFAULT_INPUT_CODING   = EUC
 DEFAULT_OUTPUT_CODING  = EUC
 DEFALUT_BREAKLINE_CODE = LF
@@ -25,7 +27,6 @@ def convert(string,
     return o_str
 
 
-
 def ChkCoding(string, checkmode=DEFAULT_CHECK_MODE):
     checker = _CheckerTable[checkmode]
     return checker(string)
@@ -38,7 +39,12 @@ class Kconv:
                  checkmode = DEFAULT_CHECK_MODE,
                  mode = WHOLE,
                  blcode = DEFALUT_BREAKLINE_CODE):
-        pass
+        self.outcode = outcode
+        self.incode = incode
+        self.hankanaconvert = hankanaconvert
+        self.checkmode = checkmode
+        self.mode = mode
+        self.blcode = blcode
     
     def convert(self, string):
         return convert(string,

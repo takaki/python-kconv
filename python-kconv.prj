@@ -1,11 +1,11 @@
 ;; -*- Prcs -*-
 (Created-By-Prcs-Version 1 3 3)
 (Project-Description "")
-(Project-Version python-kconv 0 10)
-(Parent-Version python-kconv 0 9)
+(Project-Version python-kconv 0 11)
+(Parent-Version python-kconv 0 10)
 (Version-Log "")
 (New-Version-Log "")
-(Checkin-Time "Thu, 13 Feb 2003 11:51:26 +0900")
+(Checkin-Time "Mon, 17 Jul 2006 14:07:09 +0900")
 (Checkin-Login takaki)
 (Populate-Ignore ("^build" "^dist" "^MANIFEST$" "CVS/"))
 (Project-Keywords)
@@ -25,9 +25,9 @@
   (data/kconvsjistable2.dat (python-kconv/4_kconvsjist 1.1 664) :no-keywords)
   (data/kconveuctable2.dat (python-kconv/5_kconveucta 1.1 664) :no-keywords)
   (data/kconve2utable.dat (python-kconv/6_kconve2uta 1.1 664) :no-keywords)
-  (kconv/defaults.py (python-kconv/7_defaults.p 1.2 664))
   
-  (kconv/__init__.py (python-kconv/9___init__.p 1.6 644))
+  
+  (kconv/__init__.py (python-kconv/9___init__.p 1.7 644))
   (README.en_with_EUC_JP (python-kconv/10_README.en_ 1.1 664))
   (README.EUC (python-kconv/11_README.EUC 1.1 664))
   (src/kconv.h (python-kconv/12_kconv.h 1.2 664))
@@ -41,7 +41,7 @@
   (src/kstring.cpp (python-kconv/20_kstring.cp 1.1 664))
   (src/kconv.cpp (python-kconv/21_kconv.cpp 1.2 664))
   (src/inputer.cpp (python-kconv/22_inputer.cp 1.4 664))
-  (src/crl.h (python-kconv/23_crl.h 1.1 664))
+  (src/crl.h (python-kconv/23_crl.h 1.2 664))
   (src/crl.cpp (python-kconv/24_crl.cpp 1.1 664))
   (src/commonop.h (python-kconv/25_commonop.h 1.1 664))
   (src/checker.cpp (python-kconv/26_checker.cp 1.4 664))
@@ -83,6 +83,11 @@
 ;; to version 0.5(w), by takaki:
 
   (.cvsignore (python-kconv/34_.cvsignore 1.1 664))
+
+;; Files deleted by depopulate at Fri, 28 Feb 2003 11:13:04 +0900,
+;; from version 0.10(w), by takaki:
+
+  ; (kconv/defaults.py ())
 )
 (Merge-Parents)
 (New-Merge-Parents)

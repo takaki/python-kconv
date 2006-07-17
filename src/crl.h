@@ -3,17 +3,10 @@
 
 # include <stdio.h>
 
-#ifdef HAVE_CONFIG_H
-#include "configure.h"
-#endif
-#if defined STDC_HEADERS | defined WIN32
-# include <string.h>
-# include <stdlib.h>
-#else
-# ifndef HAVE_MEMCPY
-#  define memcpy(d, s, n) bcopy ((s), (d), (n))
-# endif
-#endif
+#include <string.h>
+#include <stdlib.h>
+
+// #define memcpy(d, s, n) bcopy ((s), (d), (n))
 
 class rec{
  protected:
