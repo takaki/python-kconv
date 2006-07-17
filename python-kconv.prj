@@ -1,11 +1,11 @@
 ;; -*- Prcs -*-
 (Created-By-Prcs-Version 1 3 3)
 (Project-Description "")
-(Project-Version python-kconv 0 11)
-(Parent-Version python-kconv 0 10)
+(Project-Version python-kconv 0 12)
+(Parent-Version python-kconv 0 11)
 (Version-Log "")
 (New-Version-Log "")
-(Checkin-Time "Mon, 17 Jul 2006 14:07:09 +0900")
+(Checkin-Time "Mon, 17 Jul 2006 14:20:08 +0900")
 (Checkin-Login takaki)
 (Populate-Ignore ("^build" "^dist" "^MANIFEST$" "CVS/"))
 (Project-Keywords)
@@ -72,7 +72,7 @@
 
   (MANIFEST.in (python-kconv/30_MANIFEST.i 1.1 664))
   (ChangeLog (python-kconv/31_ChangeLog 1.3 664))
-  (setup.py (python-kconv/32_setup.py 1.5 644))
+  (setup.py (python-kconv/32_setup.py 1.6 644))
 
 ;; Files added by populate at Tue, 11 Feb 2003 20:13:30 +0900,
 ;; to version 0.4(w), by takaki:
